@@ -10,16 +10,20 @@ public class MouseRotation : MonoBehaviour
 
     void Update()
     {
-        // Get mouse movement
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
 
-        // Adjust rotation based on mouse input
-        rotationX -= mouseY * mouseSensitivity;
-        rotationY += mouseX * mouseSensitivity;
+        // If the mouse is pulsed, get the mouse input
+        if (Input.GetMouseButton(0))
+        {
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = Input.GetAxis("Mouse Y");
 
-        // Apply rotation
-        transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
+            // Adjust rotation based on mouse input
+            rotationX -= mouseY * mouseSensitivity;
+            rotationY += mouseX * mouseSensitivity;
+
+            // Apply rotation
+            transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
+        }
     }
 }
 

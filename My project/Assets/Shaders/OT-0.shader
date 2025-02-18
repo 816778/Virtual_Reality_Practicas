@@ -51,12 +51,21 @@ Shader "Hidden/Panorama_Grid"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 
                 // Convert UV to spherical coordinates
-                float latitude = i.uv.y * 180.0 - 90.0;  // -90 to 90 degrees
-                float longitude = i.uv.x * 360.0 - 180.0; // -180 to 180 degrees
+                // number pi
+                float pi = 3.14159265359;
+                float theta = i.uv.x * 2.0 * pi; // Longitude (0 to 2π)
+                float phi = (i.uv.y - 0.5) * pi; // Latitude (-π/2 to π/2)
+
+
+                // float latitude = i.uv.y * 180.0 - 90.0;  // -90 to 90 degrees
+                // float longitude = i.uv.x * 360.0 - 180.0; // -180 to 180 degrees
                 
                 // Convert lat/lon into a grid pattern
-                float parallels = abs(sin(_Parallels * (latitude + 90.0) * 3.14159 / 180.0));
-                float meridians = abs(sin(_Meridians * (longitude + 180.0) * 3.14159 / 180.0));
+                // float parallels = abs(sin(_Parallels * (latitude + 90.0) * 3.14159 / 180.0));
+                // float meridians = abs(sin(_Meridians * (longitude + 180.0) * 3.14159 / 180.0));
+
+                float parallels = abs(sin(phi * _Parallels));
+                float meridians = abs(sin(theta * _Meridians));
 
                 // Determine grid intensity
                 float grid = max(parallels, meridians);
