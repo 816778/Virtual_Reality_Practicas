@@ -78,13 +78,13 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-/Assets/Azerilo
-/Assets/Hovl Studio
-/Assets/LowPolySoldiers_demo
-/Assets/Monster
-Assets/Azerilo
-Assets/Hovl Studio
-Assets/LowPolySoldiers_demo
-Assets/Monster
+
 Temp
-/Temp
+lab_02/Temp
+TextMesh Pro
+Azerilo
+Hovl Studio
+LowPolySoldiers_demo
+Monster
+ithappy
+

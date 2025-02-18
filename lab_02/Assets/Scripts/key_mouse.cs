@@ -21,7 +21,7 @@ public class SimpleFlyCamera : MonoBehaviour {
         transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
 
         // Rotación con el ratón
-        rotationX -= Input.GetAxis("Mouse Y") * lookSensitivity;
+        rotationX -= 0; //Input.GetAxis("Mouse Y") * lookSensitivity;
         rotationY += Input.GetAxis("Mouse X") * lookSensitivity;
         rotationX = Mathf.Clamp(rotationX, -90f, 90f); // Limita el movimiento vertical
 
