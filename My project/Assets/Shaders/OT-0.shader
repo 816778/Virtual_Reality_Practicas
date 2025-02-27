@@ -1,17 +1,16 @@
-Shader "Hidden/Panorama_Grid"
+Shader "Hidden/PanoramaWithMeridiansAndParallels"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Parallels ("Number of Parallels", Float) = 10
-        _Meridians ("Number of Meridians", Float) = 10
-        _LineThickness ("Line Thickness", Float) = 0.0005
+        _LineThickness ("Line Thickness", Float) = 0.005
         _LineColor ("Line Color", Color) = (1,1,1,1)
+        _Meridians ("Number of Meridians", Float) = 10
+        _Parallels ("Number of Parallels", Float) = 5
     }
     SubShader
     {
-        Cull Front // Ensures correct rendering for panoramic images
-
+        Cull Front // Permite ver la esfera desde dentro
         Pass
         {
             CGPROGRAM
@@ -23,6 +22,7 @@ Shader "Hidden/Panorama_Grid"
             struct appdata
             {
                 float4 vertex : POSITION;
+                float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
             };
 
@@ -30,49 +30,54 @@ Shader "Hidden/Panorama_Grid"
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float3 worldNormal : TEXCOORD1;
             };
 
             sampler2D _MainTex;
-            float _Parallels;   // Number of horizontal lines
-            float _Meridians;   // Number of vertical lines
-            float _LineThickness;  // Thickness of the grid lines
-            fixed4 _LineColor;  // Color of the grid lines
+            float _LineThickness;
+            fixed4 _LineColor;
+            float _Meridians;
+            float _Parallels;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                o.worldNormal = normalize(mul((float3x3)unity_ObjectToWorld, v.normal));
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
-                
-                // Convert UV to spherical coordinates
-                // number pi
-                float pi = 3.14159265359;
-                float theta = i.uv.x * 2.0 * pi; // Longitude (0 to 2π)
-                float phi = (i.uv.y - 0.5) * pi; // Latitude (-π/2 to π/2)
 
+                // **Cálculo de Meridianos**
+                float longitude = atan2(i.worldNormal.z, i.worldNormal.x); // Ángulo de longitud
+                float normalizedLongitude = (longitude / UNITY_PI) * 0.5 + 0.5;
+                float meridianSpacing = 1.0 / _Meridians;
+                float closestMeridian = round(normalizedLongitude / meridianSpacing) * meridianSpacing;
+                float distanceToMeridian = abs(normalizedLongitude - closestMeridian);
 
-                // float latitude = i.uv.y * 180.0 - 90.0;  // -90 to 90 degrees
-                // float longitude = i.uv.x * 360.0 - 180.0; // -180 to 180 degrees
-                
-                // Convert lat/lon into a grid pattern
-                // float parallels = abs(sin(_Parallels * (latitude + 90.0) * 3.14159 / 180.0));
-                // float meridians = abs(sin(_Meridians * (longitude + 180.0) * 3.14159 / 180.0));
+                // **Cálculo de Paralelos**
+                float parallelSpacing = 1.0 / (_Parallels + 1);
+                float minDistanceParallel = 1.0; // Inicializamos con un valor alto
 
-                float parallels = abs(sin(phi * _Parallels));
-                float meridians = abs(sin(theta * _Meridians));
+                for (int j = 1; j <= _Parallels; j++) {
+                    float parallelPosition = j * parallelSpacing;
+                    float distanceToParallel = abs(i.uv.y - parallelPosition);
+                    minDistanceParallel = min(minDistanceParallel, distanceToParallel);
+                }
 
-                // Determine grid intensity
-                float grid = max(parallels, meridians);
-                float mask = step(1.0 - _LineThickness, grid); // Controls line thickness
+                // Determinar si el pixel pertenece a una línea
+                float isMeridian = step(distanceToMeridian, _LineThickness);
+                float isParallel = step(minDistanceParallel, _LineThickness);
 
-                // Blend the grid with the image
-                col.rgb = lerp(col.rgb, _LineColor.rgb, mask * _LineColor.a);
+                // Combinar ambas líneas
+                float isLine = max(isMeridian, isParallel);
+
+                // Mezclar el color de la línea con la textura
+                col.rgb = lerp(col.rgb, _LineColor.rgb, isLine * _LineColor.a);
 
                 return col;
             }
@@ -80,4 +85,3 @@ Shader "Hidden/Panorama_Grid"
         }
     }
 }
-

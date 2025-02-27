@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: street_view_2
-  m_Shader: {fileID: 4800000, guid: f9ba2b696ee2331aa96f48b7959ed386, type: 3}
+  m_Shader: {fileID: 4800000, guid: d0892ebe0a1bd7a13a684ffa7b32bd92, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,16 +24,17 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 739dcd2cf44b63599a19a34803b4dd81, type: 3}
+        m_Texture: {fileID: 2800000, guid: 911dd981ca7611a65bb2b26897d8201f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _FlipX: 0
     - _FlipY: 0
-    - _LineThickness: 0.0005
-    - _Meridians: 10
-    - _Parallels: 10
+    - _LinePosition: 0.5
+    - _LineThickness: 0.001
+    - _Meridians: 35
+    - _Parallels: 20
     m_Colors:
-    - _LineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LineColor: {r: 1, g: 0.06132078, b: 0.12690674, a: 1}
   m_BuildTextureStacks: []

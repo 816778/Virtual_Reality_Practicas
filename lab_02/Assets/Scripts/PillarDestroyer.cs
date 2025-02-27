@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PillarDestroyer : MonoBehaviour
 {
-    public float rayDistance = 20f; // Distancia del raycast
+    public float rayDistance = 30f; // Distancia del raycast
     public bool makeInvisible = false; // True para hacer invisible, False para destruir
 
     void Update()
