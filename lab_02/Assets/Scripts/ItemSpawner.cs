@@ -17,7 +17,6 @@ public class ItemSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SpawnItem();
     }
     // Update is called once per frame
     void Update()
@@ -26,7 +25,7 @@ public class ItemSpawner : MonoBehaviour
 
         if (spawnTimeText != null)
         {
-            spawnTimeText.text = $"Spawn Time: {timeSinceLastSpawn:F2} s";
+            spawnTimeText.text = $"SpawnTime: {timeSinceLastSpawn:F2}s";
         }
 
         if (Input.GetKey(KeyCode.Q) && timeSinceLastSpawn >= spawnCooldown && IsPlayerInsideRoom())

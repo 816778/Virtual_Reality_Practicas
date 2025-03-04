@@ -8,10 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Glow_2
-  m_Shader: {fileID: 4800000, guid: fa65793d8da6b35849ca3f9081814f3b, type: 3}
-  m_Parent: {fileID: 2100000, guid: 7717e61152efd6a718723d4ee9505b0b, type: 2}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 2100000, guid: ced107f98e184c686bec07588becc41a, type: 2}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _EMISSION
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

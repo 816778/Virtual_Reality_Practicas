@@ -55,15 +55,6 @@ public class ItemTeleport : MonoBehaviour
         return distance <= teleportDistance;
     }
 
-    private bool IsPlayerInsideRoom()
-    {
-        Vector3 playerPos = playerCamera.position;
-
-        return (playerPos.x > center.x - size.x / 2 && playerPos.x < center.x + size.x / 2 &&
-                playerPos.y > center.y - size.y / 2 && playerPos.y < center.y + size.y / 2 &&
-                playerPos.z > center.z - size.z / 2 && playerPos.z < center.z + size.z / 2);
-    }
-
     void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1, 0, 0, 0.5f);

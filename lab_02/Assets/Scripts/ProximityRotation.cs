@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpinFasterOnApproach : MonoBehaviour
+public class ProximityRotation : MonoBehaviour
 {
     public Transform player;  // Asigna el jugador en el Inspector
     public float maxSpeed = 1000f;  // Velocidad máxima de giro

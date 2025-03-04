@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class SimpleFlyCamera : MonoBehaviour 
+public class key_mouse : MonoBehaviour 
 {
     public float moveSpeed = 10f;     // Velocidad de movimiento
     public float lookSensitivity = 2f; // Sensibilidad del ratón
+    public bool keyUpDown = false;
 
     private float rotationX = 0f;
     private float rotationY = 0f;
@@ -17,21 +18,28 @@ public class SimpleFlyCamera : MonoBehaviour
 
     void Update() 
     {
-        // Movimiento con WASD (sin movimiento vertical)
         float moveX = Input.GetAxis("Horizontal"); // A/D
         float moveZ = Input.GetAxis("Vertical");   // W/S
 
-        // Asegurar que el movimiento es plano (sin Y)
-        Vector3 forward = transform.forward;
-        forward.y = 0; // Eliminar la componente Y para evitar subir/bajar
-        forward.Normalize(); // Normalizar para evitar cambios de velocidad
+        if (keyUpDown){
+            Vector3 move = transform.right * moveX + transform.forward * moveZ;
+            transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
+        }
+        else{
+            // Asegurar que el movimiento es plano (sin Y)
+            Vector3 forward = transform.forward;
+            forward.y = 0; 
+            forward.Normalize();
 
-        Vector3 right = transform.right;
-        right.y = 0; // También eliminamos Y del vector lateral
-        right.Normalize();
+            Vector3 right = transform.right;
+            right.y = 0;
+            right.Normalize();
 
-        Vector3 move = right * moveX + forward * moveZ;
-        transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
+            Vector3 move = right * moveX + forward * moveZ;
+            transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
+        }
+
+        
 
         // Rotación con el ratón
         rotationX -= Input.GetAxis("Mouse Y") * lookSensitivity;
