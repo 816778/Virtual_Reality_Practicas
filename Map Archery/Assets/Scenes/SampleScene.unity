@@ -122,6 +122,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &470264213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 470264215}
+  - component: {fileID: 470264214}
+  m_Layer: 0
+  m_Name: FloatingGloboSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &470264214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470264213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15685be1a713524ea3373b64f7ae962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 1333550850}
+  globoPrefab: {fileID: 5534612148462883475, guid: 30a71a9bd3d475e4e888ec6b17c6c558, type: 3}
+  cubeCount: 20
+  minDistance: 4
+  minHeight: 10
+  maxHeight: 70
+  moveSpeed: 15
+--- !u!4 &470264215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470264213}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 299.0344, y: 81.11339, z: 307.6219}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +279,6 @@ GameObject:
   - component: {fileID: 730108455}
   - component: {fileID: 730108454}
   - component: {fileID: 730108453}
-  - component: {fileID: 730108452}
   - component: {fileID: 730108457}
   m_Layer: 0
   m_Name: Player
@@ -237,19 +287,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &730108452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730108451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9613762edbaac1468c383b868d05df7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
 --- !u!136 &730108453
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -649,7 +686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1884583850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,7 +694,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884583849}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cfbb7a12c169a047bd14d486a6523e2, type: 3}
   m_Name: 
@@ -666,10 +703,10 @@ MonoBehaviour:
   cubePrefab: {fileID: 5534612148462883475, guid: 30a71a9bd3d475e4e888ec6b17c6c558, type: 3}
   cubeCount: 20
   cubeSize: {x: 2, y: 2, z: 2}
-  minDistance: 3
+  minDistance: 4
   maxSlope: 20
-  minHeight: 5
-  maxHeight: 50
+  minHeight: 10
+  maxHeight: 70
 --- !u!4 &1884583851
 Transform:
   m_ObjectHideFlags: 0
@@ -740,3 +777,4 @@ SceneRoots:
   - {fileID: 2076662537}
   - {fileID: 730108456}
   - {fileID: 1884583851}
+  - {fileID: 470264215}
