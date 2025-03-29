@@ -2,7 +2,7 @@
 
 public class key_mouse : MonoBehaviour
 {
-    public float moveSpeed = 10f;     // Velocidad de movimiento
+    public float moveSpeed = 30f;     // Velocidad de movimiento
     public float lookSensitivity = 2f; // Sensibilidad del ratón
     public bool keyUpDown = false;
 

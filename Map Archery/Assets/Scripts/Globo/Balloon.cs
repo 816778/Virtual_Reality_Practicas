@@ -1,94 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class  Balloon: MonoBehaviour
+// Abstract base class for all balloon types.
+public abstract class Balloon : MonoBehaviour
 {
-    public GameObject balloonPrefab;
-    public int balloonCount = 10;
-    public Vector3 balloonSize = new Vector3(2, 4, 2);
-    public float minDistance = 3f;
-    public float minHeight = 10f;
-    public float maxHeight = 50f;
-    public Terrain terrain;
+    // Indicates whether this balloon type is unlocked by the player.
+    public bool IsUnlocked { get; private set; } = false;
 
-    protected List<Vector3> placedPositions = new List<Vector3>();
-    protected List<Bounds> placedBounds = new List<Bounds>();
+    // The current level of this balloon. Affects its cost, effects, etc.
+    public int Level { get; private set; } = 0;
 
+    // Initializes the balloon (each subclass can initialize its own specific properties).
+    public abstract void Init(); // cada tipo de globo puede hacer algo distinto
 
-    protected virtual void Start()
+    // Defines how this balloon moves. Different types may float, dash, zigzag, etc.
+    public abstract void Move();
+
+    // Reduces the balloon's health when damaged. Used for types like armored balloons.
+    public abstract void TakeDamage(int amount);
+
+    // Checks whether the balloon has been destroyed.
+    public abstract bool IsDestroyed();
+
+    // Called when the balloon is destroyed: trigger effects, rewards, or removal.
+    public abstract void OnDestroyed();
+
+    // Returns the specific balloon type (enum), useful for logic, filtering, and stats.
+    public abstract BalloonTypeName GetBalloonType();
+
+    // Returns the cost to unlock this balloon type in the shop.
+    public abstract int GetUnlockCost();
+
+    // Returns the cost to upgrade this balloon to the next level.
+    public abstract int GetUpgradeCost();
+
+    // Increases the level of the balloon. Can affect its effects, stats, and cost.
+    public virtual void Upgrade()
     {
-        SpawnBalloons();
+        Level++;
     }
 
-    protected virtual void SpawnBalloons()
-    {
-        for (int i = 0; i < balloonCount; i++)
-        {
-            Bounds? validBounds = GetValidBounds();
-
-            if (validBounds.HasValue)
-            {
-                Vector3 spawnPos = validBounds.Value.center;
-                GameObject balloon = Instantiate(balloonPrefab, spawnPos, Quaternion.identity);
-                balloon.transform.localScale = balloonSize;
-                placedBounds.Add(GetFullBounds(balloon));
-                //Debug.Log("Balloon " + i + " created at " + spawnPos);
-            }
-        }
-    }
-
-    protected Bounds? GetValidBounds()
-    {
-        int maxAttempts = 100;
-
-        for (int i = 0; i < maxAttempts; i++)
-        {
-            float x = Random.Range(0, terrain.terrainData.size.x);
-            float z = Random.Range(0, terrain.terrainData.size.z);
-            float y = Random.Range(minHeight, maxHeight);
-            float terrainY = terrain.SampleHeight(new Vector3(x, 0, z)) + terrain.transform.position.y;
-
-            Vector3 worldPos = new Vector3(x, y, z);
-
-            // Simulamos instanciación para obtener los bounds
-            GameObject temp = Instantiate(balloonPrefab, worldPos, Quaternion.identity);
-            temp.transform.localScale = balloonSize;
-            Bounds b = GetFullBounds(temp);
-            DestroyImmediate(temp);
-
-            if (y - b.extents.y > terrainY && IsFarFromOthers(b))
-            {
-                return b;
-            }
-        }
-
-        return null;
-    }
-
-    protected bool IsFarFromOthers(Bounds newBounds)
-    {
-        foreach (Bounds existing in placedBounds)
-        {
-            if (existing.Intersects(newBounds))
-                return false;
-        }
-        return true;
-    }
-
-
-    protected Bounds GetFullBounds(GameObject obj)
-    {
-        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-        if (renderers.Length == 0)
-            return new Bounds(obj.transform.position, Vector3.zero);
-
-        Bounds bounds = renderers[0].bounds;
-        for (int i = 1; i < renderers.Length; i++)
-        {
-            bounds.Encapsulate(renderers[i].bounds);
-        }
-        return bounds;
-    }
+    // This would define what happens when the balloon is collected or hit:
+    // giving points, applying score multipliers, gold, or penalties.
+    // Uncomment and implement in child classes if needed.
+    // public abstract void ApplyEffect(GameManager gameManager);
 }
-
-
